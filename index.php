@@ -3,6 +3,7 @@
 $envVars = null;
 
 include('./settings/Settings.php');
+include('./settings/Database.php');
 include('./DB.php');
 include ('./getVars.php');
 
