@@ -1,6 +1,7 @@
 <?php
 $settings = null;
 $envVars = null;
+$results = null;
 
 include('./settings/Settings.php');
 include('./settings/Database.php');
@@ -11,9 +12,13 @@ $db = new DB($database[$settings['env']]);
 
 if ( $envVars['function'] = 'login' ) {
 
-    $u = $envVars['username'];
-    $p = $envVars['password'];
-    $db->Query("SELECT 
+    if (!isset($envVars['username']) || !isset($envVars['password']) ) {
+        $results = 'Not enough arguments..';
+    }
+    else {
+        $u = $envVars['username'];
+        $p = $envVars['password'];
+        $db->Query("SELECT 
 	* 
 FROM 
 	users as u
@@ -28,6 +33,8 @@ ON
 WHERE 
 	TRIM(login) = '$u' AND
     TRIM(password) = '$p'");
+        $results = $db->results;
+    }
 }
 
-echo json_encode($db->results);
+echo json_encode($results);
