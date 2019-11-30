@@ -1,5 +1,5 @@
 <?php
-
+$settings = null;
 $envVars = null;
 
 include('./settings/Settings.php');
@@ -7,11 +7,13 @@ include('./settings/Database.php');
 include('./DB.php');
 include ('./getVars.php');
 
-$db = new DB($database['dev']);
-$u = $envVars['username'];
-$p = $envVars['password'];
+$db = new DB($database[$settings['env']]);
 
-$db->Query("SELECT 
+if ( $envVars['function'] = 'login' ) {
+
+    $u = $envVars['username'];
+    $p = $envVars['password'];
+    $db->Query("SELECT 
 	* 
 FROM 
 	users as u
@@ -26,5 +28,6 @@ ON
 WHERE 
 	TRIM(login) = '$u' AND
     TRIM(password) = '$p'");
+}
 
 echo json_encode($db->results);
